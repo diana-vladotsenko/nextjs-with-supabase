@@ -16,6 +16,9 @@ export default function Navbar() {
             <Button asChild size="sm" variant="outline">
               <Link href="/notes">Notes</Link>
             </Button>
+            <Button asChild size="sm" variant="outline">
+              <Link href="/todos">To-do</Link>
+            </Button>
           </div>
           <div className="flex items-center gap-3">
             {!hasEnvVars ? <EnvVarWarning /> : <AuthButton />}
