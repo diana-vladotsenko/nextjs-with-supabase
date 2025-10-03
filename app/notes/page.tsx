@@ -1,28 +1,52 @@
 import { createClient } from "@/lib/supabase/server";
+import { deleteNote, createNote } from "./actions";
 
-export default async function Page() {
+type Note = {
+  id: number;
+  title: string;
+};
+
+async function getNotes(): Promise<Note[]> {
   const supabase = await createClient();
-  const { data: notes } = await supabase.from("notes").select();
-
-  return <pre>Notes: {JSON.stringify(notes, null, 2)}</pre>;
+  const { data, error } = await supabase.from("notes").select().order("id");
+  if (error) throw error;
+  return (data ?? []) as Note[];
 }
 
-// "use client";
+export default async function Page() {
+  const notes = await getNotes();
 
-// import { createClient } from "@/lib/supabase/client";
-// import { useEffect, useState } from "react";
+  return (
+    <main className="max-w-3xl mx-auto p-6 space-y-6">
+      <h1 className="text-2xl font-semibold">Notes</h1>
 
-// export default function Page() {
-//   const [notes, setNotes] = useState<any[] | null>(null);
-//   const supabase = createClient();
+      <form action={createNote} className="rounded-xl border p-4 space-y-3">
+        <input
+          name="title"
+          placeholder="Note description.."
+          className="w-full rounded-lg border px-3 py-2"
+        />
+        <button className="rounded-lg border px-3 py-2 hover:bg-black hover:text-white active:bg-red-700">
+          Add
+        </button>
+      </form>
 
-//   useEffect(() => {
-//     const getData = async () => {
-//       const { data } = await supabase.from("notes").select();
-//       setNotes(data);
-//     };
-//     getData();
-//   }, []);
-
-//   return <pre>{JSON.stringify(notes, null, 2)}</pre>;
-// }
+      <ul className="space-y-2">
+        {notes.map((n) => (
+          <li
+            key={n.id}
+            className="rounded-xl border p-4 flex items-center justify-between"
+          >
+            <span className="font-medium">{n.title}</span>
+            <form action={deleteNote}>
+              <input type="hidden" name="id" value={n.id} />
+              <button className="rounded-lg border px-3 py-1 text-sm border-red-200 text-red-600 hover:border-transparent hover:bg-red-600 hover:text-white active:bg-red-700 ...">
+                Delete
+              </button>
+            </form>
+          </li>
+        ))}
+      </ul>
+    </main>
+  );
+}
