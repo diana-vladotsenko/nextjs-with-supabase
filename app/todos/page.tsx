@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Form } from "./_components/Form";
 import type { Task } from "@/types/task";
 import { completeTask, deleteTask } from "./actions";
+import UpdateModal from "./_components/UpdateModal";
 
 export const revalidate = 0;
 
@@ -40,7 +41,7 @@ export default async function Page() {
         <ul className="space-y-2">
           <div className="flex items-center justify-between">
             <h2 className="mb-3 text-sm font-medium uppercase tracking-wide text-neutral-500">
-              All tasks ({active.length + tasks.length})
+              All tasks ({tasks.length})
             </h2>
             <h5 className="mb-3 text-sm font-medium uppercase tracking-wide text-neutral-500">
               Active ({active.length})
@@ -70,7 +71,7 @@ export default async function Page() {
                     Complete
                   </button>
                 </form>
-
+                <UpdateModal id={a.id} currentName={a.name} />
                 <form action={deleteTask}>
                   <input type="hidden" name="id" value={a.id} />
                   <button

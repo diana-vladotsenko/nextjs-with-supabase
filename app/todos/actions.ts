@@ -57,3 +57,21 @@ export async function deleteTask(formData: FormData) {
     throw err;
   }
 }
+
+export async function updateTask(formData: FormData) {
+  const id = Number(formData.get("id"));
+  const name = String(formData.get("name") ?? "").trim();
+
+  if (!id || !name) return;
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("tasks")
+    .update({ name })
+    .eq("id", id);
+
+  if (error) throw new Error(error.message);
+
+  // страница со списком должна заново подтянуть данные
+  revalidatePath("/todos");
+}
