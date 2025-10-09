@@ -72,6 +72,5 @@ export async function updateTask(formData: FormData) {
 
   if (error) throw new Error(error.message);
 
-  // страница со списком должна заново подтянуть данные
   revalidatePath("/todos");
 }
