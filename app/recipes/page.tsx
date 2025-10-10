@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Recipe } from "@/types/Recipe";
 import { Form } from "./_components/Form";
 import { deleteRecipe } from "./actions";
+import UpdateRecipeModal from "./_components/UpdateRecipeModal";
 
 export default async function Page() {
   const supabase = await createClient();
@@ -89,23 +90,14 @@ export default async function Page() {
                         Delete
                       </button>
                     </form>
-                    <form>
-                      <input type="hidden" name="id" value={r.id} />
-                      <button
-                        type="submit"
-                        className="inline-flex items-center justify-center
-                      rounded-full border border-blue-300 
-                      px-8 py-2 text-xs font-medium
-                      text-blue-600 bg-white
-                      transition-colors
-                      hover:bg-blue-600 hover:text-white hover:border-blue-600
-                      active:bg-blue-700
-                      disabled:opacity-50 disabled:cursor-not-allowed
-                      shadow-sm"
-                      >
-                        Update
-                      </button>
-                    </form>
+                    <UpdateRecipeModal
+                      recipe={{
+                        id: r.id,
+                        title: r.title,
+                        ingredients: r.ingredients,
+                        instruction: r.instruction,
+                      }}
+                    />
                   </div>
                 </div>
               </li>
