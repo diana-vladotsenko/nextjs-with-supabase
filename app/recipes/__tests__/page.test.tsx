@@ -103,6 +103,7 @@ vi.mock("@/lib/supabase/server", () => {
 import { __setRecipes, __setError, __spies } from "@/lib/supabase/server";
 
 describe("recipes/page", () => {
+  
   beforeEach(() => {
     __setRecipes([
       {

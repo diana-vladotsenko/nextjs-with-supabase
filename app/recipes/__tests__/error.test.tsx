@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import RecipeError from "../error";
 
 describe("recipes/error", () => {
+  
   it("renders", () => {
     const err = { name: "Error", message: "Boom" } as Error;
     const { container } = render(<RecipeError error={err} reset={() => {}} />);

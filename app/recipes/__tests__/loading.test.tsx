@@ -3,6 +3,12 @@ import { render } from "@testing-library/react";
 import Loading from "../loading";
 
 describe("recipes/loading", () => {
+  
+  it("renders", () => {
+    const { container } = render(<Loading/>);
+    expect(container).toBeTruthy();
+  });
+
   it("renders root container with pulse", () => {
     const { container } = render(<Loading />);
     const root = container.firstElementChild as HTMLElement;
