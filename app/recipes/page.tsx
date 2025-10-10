@@ -1,6 +1,8 @@
 import React from "react";
 import { createClient } from "@/lib/supabase/server";
 import { Recipe } from "@/types/Recipe";
+import { Form } from "./_components/Form";
+import { deleteRecipe } from "./actions";
 
 export default async function Page() {
   const supabase = await createClient();
@@ -18,12 +20,7 @@ export default async function Page() {
         <h1 className="text-3xl font-bold text-neutral-900">Recipes</h1>
         <p className="text-neutral-500">A collection of your favorite meals</p>
       </header>
-
-      <section>
-        <h2 className="text-lg font-semibold mb-2">Add new</h2>
-        <div className="rounded-lg border border-dashed border-neutral-300 p-6 text-neutral-400 text-sm text-center"></div>
-      </section>
-
+      <Form />
       <section>
         <h2 className="text-lg font-semibold mb-4">
           All recipes <span className="text-neutral-500">({list.length})</span>
@@ -75,7 +72,7 @@ export default async function Page() {
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    <form>
+                    <form action={deleteRecipe}>
                       <input type="hidden" name="id" value={r.id} />
                       <button
                         type="submit"
