@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { Form } from "./_components/Form";
-import type { Task } from "@/types/task";
+import type { Task } from "@/types/Task";
 import { completeTask, deleteTask } from "./actions";
 import UpdateModal from "./_components/UpdateModal";
 
