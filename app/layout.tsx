@@ -1,7 +1,9 @@
+import "@mantine/core/styles.css";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
-import { ThemeProvider } from "next-themes";
 import "./globals.css";
+
+import { ColorSchemeScript, MantineProvider, createTheme } from "@mantine/core";
 import Navbar from "@/components/navbar";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -20,23 +22,41 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
+const theme = createTheme({
+  fontFamily: "Inter, sans-serif",
+  primaryColor: "violet",
+  defaultRadius: "md",
+  colors: {
+    violet: [
+      "#f5f3ff",
+      "#ede9fe",
+      "#ddd6fe",
+      "#c4b5fd",
+      "#a78bfa",
+      "#8b5cf6",
+      "#7c3aed",
+      "#6d28d9",
+      "#5b21b6",
+      "#4c1d95",
+    ],
+  },
+});
+
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <ColorSchemeScript defaultColorScheme="light" />
+      </head>
       <body className={`${geistSans.className} antialiased`}>
         <Navbar />
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <MantineProvider theme={theme} defaultColorScheme="light">
           {children}
-        </ThemeProvider>
+        </MantineProvider>
       </body>
     </html>
   );
